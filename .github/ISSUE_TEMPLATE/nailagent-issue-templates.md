@@ -1,9 +1,9 @@
 ---
 name: NailAgent-ISSUE-TEMPLATES
-about: "[Feat] 작업 내용"
-title: ''
+about: NailAgent FE ISSUE TEMPLATES
+title: "[Feat] 작업 내용"
 labels: ''
-assignees: ''
+assignees: kyooonnnggg
 
 ---
 
@@ -15,4 +15,4 @@ assignees: ''
 - [ ] 
 
 ## 🕟 마감 기한
-2026-05-__()
+2026-05- ()
