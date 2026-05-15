@@ -1,0 +1,20 @@
+@use "./abstracts/variables";
+@use "./base/reset";
+@use "./base/typography";
+
+.page-shell {
+  width: min(100% - (var(--layout-gutter) * 2), var(--layout-max-width));
+  margin-inline: auto;
+}
+
+.desktop-frame {
+  min-height: 100vh;
+  padding-block: 32px;
+}
+
+.surface {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
