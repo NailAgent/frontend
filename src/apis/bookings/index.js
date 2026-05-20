@@ -1,0 +1,1 @@
+export { getBookings } from './bookingsApi'
