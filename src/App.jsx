@@ -55,9 +55,9 @@ function App() {
         <div className='brand'>
           <div className='brand__title'>
             <Icon name='shop' />
-            <strong>러블리 네일샵</strong>
+            <strong>숙명네일샵</strong>
           </div>
-          <span>김지영 사장님</span>
+          <span>김제니 사장님</span>
         </div>
         <nav className='side-nav' aria-label='관리 메뉴'>
           {navItems.map((item) => (
