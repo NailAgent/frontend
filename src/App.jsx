@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { createSseConnection } from '@/apis/sse'
 import Icon from '@/components/Icon'
+import InquiryNotificationModal from '@/components/InquiryNotificationModal'
 import { navItems } from '@/data/dashboardData'
 import CustomersPage from '@/pages/CustomersPage'
 import ReservationsPage from '@/pages/ReservationsPage'
@@ -8,6 +10,37 @@ import ShopInfoPage from '@/pages/ShopInfoPage'
 
 function App() {
   const [activeTab, setActiveTab] = useState('shop')
+  const [notifications, setNotifications] = useState([])
+
+  useEffect(() => {
+    const sseConnection = createSseConnection({
+      onInquiry(data) {
+        if (!data.waiting) {
+          return
+        }
+
+        const notification = {
+          id: crypto.randomUUID(),
+          customerName: data.customer_name ?? '고객',
+        }
+
+        setNotifications((currentNotifications) => [...currentNotifications, notification])
+      },
+      onError(error) {
+        console.error('SSE 연결 오류:', error)
+      },
+    })
+
+    return () => {
+      sseConnection.close()
+    }
+  }, [])
+
+  const currentNotification = notifications[0] ?? null
+
+  const handleNotificationConfirm = () => {
+    setNotifications((currentNotifications) => currentNotifications.slice(1))
+  }
 
   const panel = {
     shop: <ShopInfoPage />,
@@ -41,6 +74,10 @@ function App() {
         </nav>
       </aside>
       <main className='admin-content'>{panel}</main>
+      <InquiryNotificationModal
+        notification={currentNotification}
+        onConfirm={handleNotificationConfirm}
+      />
     </div>
   )
 }

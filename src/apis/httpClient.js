@@ -10,7 +10,7 @@ export class ApiError extends Error {
   }
 }
 
-function buildApiUrl(path, query) {
+export function buildApiUrl(path, query) {
   const normalizedBaseUrl = API_BASE_URL.replace(/\/$/, '')
   const normalizedPath = path.startsWith('/') ? path : `/${path}`
   const searchParams = new URLSearchParams()
