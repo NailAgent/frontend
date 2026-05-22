@@ -59,54 +59,7 @@ function formatServicesPrice(servicesPrice) {
     return ''
   }
 
-  try {
-    const parsedPrices = JSON.parse(servicesPrice)
-
-    if (!parsedPrices || typeof parsedPrices !== 'object' || Array.isArray(parsedPrices)) {
-      return servicesPrice
-    }
-
-    return Object.entries(parsedPrices)
-      .map(([serviceName, price]) => `${serviceName}: ${formatCurrency(price)}`)
-      .join('\n')
-  } catch {
-    return servicesPrice
-  }
-}
-
-function parseServicesPrice(value) {
-  const text = String(value ?? '').trim()
-
-  if (!text) {
-    return ''
-  }
-
-  try {
-    JSON.parse(text)
-    return text
-  } catch {
-    const priceEntries = text
-      .split('\n')
-      .map((line) => line.trim())
-      .filter(Boolean)
-      .map((line) => {
-        const [serviceName, ...priceParts] = line.split(':')
-        const price = parseCurrency(priceParts.join(':'))
-
-        if (!serviceName || price === undefined) {
-          return null
-        }
-
-        return [serviceName.trim(), price]
-      })
-      .filter(Boolean)
-
-    if (!priceEntries.length) {
-      return text
-    }
-
-    return JSON.stringify(Object.fromEntries(priceEntries))
-  }
+  return servicesPrice
 }
 
 export function mapShopInfoToFormValues(shopInfo) {
@@ -128,7 +81,7 @@ export function mapFormValuesToShopInfoPayload(formValues) {
     business_hour: businessHour,
     ...(closedDays ? { closed_days: closedDays } : {}),
     booking_form_text: formValues.form,
-    services_price: parseServicesPrice(formValues.prices),
+    services_price: formValues.prices,
     deposit_amount: parseCurrency(formValues.deposit),
     account_number: formValues.account,
     policy_text: formValues.policy,

@@ -358,6 +358,7 @@ tr.is-selected td {
 }
 
 .floating-action,
+.upload-action,
 .secondary-action,
 .outline-action {
   display: inline-flex;
@@ -381,6 +382,28 @@ tr.is-selected td {
 
   &:hover {
     background: var(--color-primary-hover);
+  }
+}
+
+.shop-info-actions {
+  position: fixed;
+  right: 36px;
+  bottom: 34px;
+  display: flex;
+  gap: 12px;
+
+  .floating-action {
+    position: static;
+  }
+}
+
+.upload-action {
+  color: #e60076;
+  background: #fce7f3;
+  box-shadow: 0 12px 22px rgb(15 23 42 / 0.12);
+
+  &:hover {
+    background: #fbcfe8;
   }
 }
 
@@ -463,6 +486,23 @@ tr.is-selected td {
     font-weight: 700;
     text-align: center;
   }
+}
+
+.calendar-panel {
+  overflow: hidden;
+  height: calc(100vh - 76px);
+  min-height: 680px;
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.08);
+}
+
+.calendar-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 .modal-backdrop {
@@ -557,6 +597,11 @@ tr.is-selected td {
     padding: 44px 20px 110px;
   }
 
+  .calendar-panel {
+    height: calc(100vh - 190px);
+    min-height: 620px;
+  }
+
   .info-grid {
     grid-template-columns: repeat(2, minmax(230px, 1fr));
   }
@@ -576,10 +621,20 @@ tr.is-selected td {
     padding: 22px;
   }
 
+  .calendar-panel {
+    min-height: 560px;
+  }
+
   .floating-action,
+  .shop-info-actions,
   .action-group {
     right: 20px;
     bottom: 20px;
+  }
+
+  .shop-info-actions {
+    left: 20px;
+    justify-content: flex-end;
   }
 
   .action-group {

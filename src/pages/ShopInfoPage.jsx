@@ -134,14 +134,19 @@ function ShopInfoPage() {
           })}
         </section>
       )}
-      <button
-        className={`floating-action ${isEditing ? 'floating-action--complete' : ''}`}
-        type='button'
-        disabled={isLoading || isSaving || (Boolean(errorMessage) && !isEditing)}
-        onClick={handleActionClick}
-      >
-        {isSaving ? '저장 중' : isEditing ? '완료' : '수정'}
-      </button>
+      <div className='shop-info-actions'>
+        <button className='upload-action' type='button'>
+          추가 정보 업로드
+        </button>
+        <button
+          className={`floating-action ${isEditing ? 'floating-action--complete' : ''}`}
+          type='button'
+          disabled={isLoading || isSaving || (Boolean(errorMessage) && !isEditing)}
+          onClick={handleActionClick}
+        >
+          {isSaving ? '저장 중' : isEditing ? '완료' : '수정'}
+        </button>
+      </div>
     </>
   )
 }

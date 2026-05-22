@@ -3,6 +3,7 @@ import Icon from '@/components/Icon'
 import { navItems } from '@/data/dashboardData'
 import CustomersPage from '@/pages/CustomersPage'
 import ReservationsPage from '@/pages/ReservationsPage'
+import SchedulePage from '@/pages/SchedulePage'
 import ShopInfoPage from '@/pages/ShopInfoPage'
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
     shop: <ShopInfoPage />,
     customers: <CustomersPage />,
     reservations: <ReservationsPage />,
-    schedule: null,
+    schedule: <SchedulePage />,
   }[activeTab]
 
   return (
