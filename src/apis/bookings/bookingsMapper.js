@@ -1,7 +1,7 @@
 const VISIT_STATUS_LABELS = {
-  pending: '대기중',
-  confirmed: '확정',
-  visited: '방문완료',
+  pending: '예약 대기',
+  confirmed: '예약 확정',
+  visited: '이용 완료',
   no_show: '노쇼',
 }
 
@@ -16,8 +16,12 @@ export function mapBookingToReservation(booking) {
     date: [reserveDate, reserveTime].filter(Boolean).join(' '),
     removal: booking.off_removal ? '제거' : '-',
     designer: booking.designer || '사장님',
-    status: VISIT_STATUS_LABELS[booking.visit_status] ?? booking.visit_status ?? '-',
+    status:
+      VISIT_STATUS_LABELS[String(booking.visit_status ?? '').toLowerCase()] ??
+      booking.visit_status ??
+      '-',
     visitStatus: booking.visit_status ?? '',
+    imageUrls: booking.image_urls ?? [],
   }
 }
 
