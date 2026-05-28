@@ -287,6 +287,42 @@ tr.is-selected td {
   padding-inline: 24px 8px;
 }
 
+.reservations-table {
+  table-layout: fixed;
+  min-width: 980px;
+
+  th,
+  td {
+    padding-inline: 24px;
+  }
+
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: 14%;
+  }
+
+  th:nth-child(3),
+  td:nth-child(3) {
+    width: 14%;
+  }
+
+  th:nth-child(4),
+  td:nth-child(4) {
+    width: 22%;
+  }
+
+  th:nth-child(5),
+  td:nth-child(5),
+  th:nth-child(6),
+  td:nth-child(6),
+  th:nth-child(7),
+  td:nth-child(7),
+  th:nth-child(8),
+  td:nth-child(8) {
+    width: 12%;
+  }
+}
+
 .checkbox-control {
   display: inline-grid;
   place-items: center;
@@ -299,6 +335,20 @@ tr.is-selected td {
     margin: 0;
     accent-color: var(--color-primary);
     cursor: pointer;
+  }
+}
+
+.photo-action {
+  min-height: 34px;
+  padding: 0 14px;
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 800;
+  background: #fce7f3;
+  border-radius: 8px;
+
+  &:hover {
+    background: #fbcfe8;
   }
 }
 
@@ -538,6 +588,27 @@ tr.is-selected td {
   strong {
     color: #111827;
     font-weight: 800;
+  }
+}
+
+.image-modal {
+  width: min(100%, 720px);
+}
+
+.image-modal__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  max-height: 56vh;
+  overflow-y: auto;
+
+  img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    background: #f1f5f9;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
   }
 }
 

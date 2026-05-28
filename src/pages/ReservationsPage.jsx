@@ -20,9 +20,9 @@ function formatReservationDate(dateText) {
 
 function StatusBadge({ children }) {
   const tone =
-    children === '확정' || children === '방문완료'
+    children === '예약 확정' || children === '이용 완료'
       ? 'success'
-      : children === '대기중'
+      : children === '예약 대기'
         ? 'warning'
         : children === '노쇼'
           ? 'danger'
@@ -74,6 +74,45 @@ function ConfirmModal({ action, selectedReservations, onClose, onConfirm }) {
   )
 }
 
+function ReservationImagesModal({ reservation, onClose }) {
+  if (!reservation) {
+    return null
+  }
+
+  const hasImages = reservation.imageUrls.length > 0
+
+  return (
+    <div className='modal-backdrop' role='presentation'>
+      <section
+        className='confirm-modal image-modal'
+        role='dialog'
+        aria-modal='true'
+        aria-labelledby='image-modal-title'
+      >
+        <h2 id='image-modal-title'>{reservation.name} 고객 시술 사진</h2>
+        {hasImages ? (
+          <div className='image-modal__grid'>
+            {reservation.imageUrls.map((imageUrl) => (
+              <img alt={`${reservation.name} 고객 시술 사진`} key={imageUrl} src={imageUrl} />
+            ))}
+          </div>
+        ) : (
+          <p>등록된 시술 사진이 없습니다.</p>
+        )}
+        <div className='confirm-modal__actions'>
+          <button
+            className='floating-action floating-action--modal'
+            type='button'
+            onClick={onClose}
+          >
+            확인
+          </button>
+        </div>
+      </section>
+    </div>
+  )
+}
+
 function ReservationsPage() {
   const [page, setPage] = useState(1)
   const [reservationRows, setReservationRows] = useState([])
@@ -82,6 +121,7 @@ function ReservationsPage() {
   const [errorMessage, setErrorMessage] = useState('')
   const [selectedAction, setSelectedAction] = useState(null)
   const [selectedIds, setSelectedIds] = useState([])
+  const [imageModalReservation, setImageModalReservation] = useState(null)
   const hasSelection = selectedIds.length > 0
   const selectedReservations = useMemo(
     () => reservationRows.filter((reservation) => selectedIds.includes(reservation.id)),
@@ -163,7 +203,7 @@ function ReservationsPage() {
         <p>{isLoading ? '예약 목록을 불러오는 중' : `총 ${pagination.totalSize}건의 예약`}</p>
       </header>
       <div className='table-card'>
-        <table>
+        <table className='reservations-table'>
           <thead>
             <tr>
               <th className='checkbox-cell'>
@@ -175,24 +215,25 @@ function ReservationsPage() {
               <th>제거 여부</th>
               <th>디자이너</th>
               <th>예약 상태</th>
+              <th>시술 사진</th>
             </tr>
           </thead>
           <tbody>
             {isLoading ? (
               <tr>
-                <td className='table-state' colSpan='7'>
+                <td className='table-state' colSpan='8'>
                   예약 목록을 불러오는 중입니다.
                 </td>
               </tr>
             ) : errorMessage ? (
               <tr>
-                <td className='table-state table-state--error' colSpan='7'>
+                <td className='table-state table-state--error' colSpan='8'>
                   {errorMessage}
                 </td>
               </tr>
             ) : reservationRows.length === 0 ? (
               <tr>
-                <td className='table-state' colSpan='7'>
+                <td className='table-state' colSpan='8'>
                   조회된 예약이 없습니다.
                 </td>
               </tr>
@@ -225,6 +266,15 @@ function ReservationsPage() {
                     <td>{reservation.designer}</td>
                     <td>
                       <StatusBadge>{reservation.status}</StatusBadge>
+                    </td>
+                    <td>
+                      <button
+                        className='photo-action'
+                        type='button'
+                        onClick={() => setImageModalReservation(reservation)}
+                      >
+                        사진 보기
+                      </button>
                     </td>
                   </tr>
                 )
@@ -280,6 +330,10 @@ function ReservationsPage() {
           onConfirm={handleConfirmAction}
         />
       ) : null}
+      <ReservationImagesModal
+        reservation={imageModalReservation}
+        onClose={() => setImageModalReservation(null)}
+      />
     </>
   )
 }
