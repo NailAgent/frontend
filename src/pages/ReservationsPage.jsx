@@ -75,11 +75,23 @@ function ConfirmModal({ action, selectedReservations, onClose, onConfirm }) {
 }
 
 function ReservationImagesModal({ reservation, onClose }) {
-  if (!reservation) {
-    return null
-  }
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
   const hasImages = reservation.imageUrls.length > 0
+  const hasMultipleImages = reservation.imageUrls.length > 1
+  const currentImageUrl = reservation.imageUrls[currentImageIndex]
+
+  const showPreviousImage = () => {
+    setCurrentImageIndex((currentIndex) =>
+      currentIndex === 0 ? reservation.imageUrls.length - 1 : currentIndex - 1,
+    )
+  }
+
+  const showNextImage = () => {
+    setCurrentImageIndex((currentIndex) =>
+      currentIndex === reservation.imageUrls.length - 1 ? 0 : currentIndex + 1,
+    )
+  }
 
   return (
     <div className='modal-backdrop' role='presentation'>
@@ -91,10 +103,36 @@ function ReservationImagesModal({ reservation, onClose }) {
       >
         <h2 id='image-modal-title'>{reservation.name} 고객 시술 사진</h2>
         {hasImages ? (
-          <div className='image-modal__grid'>
-            {reservation.imageUrls.map((imageUrl) => (
-              <img alt={`${reservation.name} 고객 시술 사진`} key={imageUrl} src={imageUrl} />
-            ))}
+          <div className='image-carousel'>
+            {hasMultipleImages ? (
+              <button
+                aria-label='이전 사진'
+                className='image-carousel__arrow image-carousel__arrow--previous'
+                type='button'
+                onClick={showPreviousImage}
+              >
+                ‹
+              </button>
+            ) : null}
+            <img
+              alt={`${reservation.name} 고객 시술 사진 ${currentImageIndex + 1}`}
+              src={currentImageUrl}
+            />
+            {hasMultipleImages ? (
+              <button
+                aria-label='다음 사진'
+                className='image-carousel__arrow image-carousel__arrow--next'
+                type='button'
+                onClick={showNextImage}
+              >
+                ›
+              </button>
+            ) : null}
+            {hasMultipleImages ? (
+              <span className='image-carousel__counter'>
+                {currentImageIndex + 1} / {reservation.imageUrls.length}
+              </span>
+            ) : null}
           </div>
         ) : (
           <p>등록된 시술 사진이 없습니다.</p>
@@ -330,10 +368,13 @@ function ReservationsPage() {
           onConfirm={handleConfirmAction}
         />
       ) : null}
-      <ReservationImagesModal
-        reservation={imageModalReservation}
-        onClose={() => setImageModalReservation(null)}
-      />
+      {imageModalReservation ? (
+        <ReservationImagesModal
+          key={imageModalReservation.id}
+          reservation={imageModalReservation}
+          onClose={() => setImageModalReservation(null)}
+        />
+      ) : null}
     </>
   )
 }

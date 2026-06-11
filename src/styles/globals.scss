@@ -595,21 +595,62 @@ tr.is-selected td {
   width: min(100%, 720px);
 }
 
-.image-modal__grid {
+.image-carousel {
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 14px;
-  max-height: 56vh;
-  overflow-y: auto;
+  place-items: center;
+  min-height: 360px;
+  margin-top: 18px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
 
   img {
     width: 100%;
-    aspect-ratio: 1;
-    object-fit: cover;
-    background: #f1f5f9;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
+    max-height: 58vh;
+    object-fit: contain;
   }
+}
+
+.image-carousel__arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: #ffffff;
+  background: rgb(17 24 39 / 0.72);
+  border-radius: 999px;
+  transform: translateY(-50%);
+
+  &:hover {
+    background: rgb(17 24 39 / 0.88);
+  }
+}
+
+.image-carousel__arrow--previous {
+  left: 16px;
+}
+
+.image-carousel__arrow--next {
+  right: 16px;
+}
+
+.image-carousel__counter {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+  min-width: 54px;
+  padding: 5px 10px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  text-align: center;
+  background: rgb(17 24 39 / 0.72);
+  border-radius: 999px;
 }
 
 .daily-briefing-modal {
