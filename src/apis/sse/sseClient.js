@@ -11,7 +11,7 @@ function parseEventData(event) {
   }
 }
 
-export function createSseConnection({ onInquiry, onError } = {}) {
+export function createSseConnection({ onDailyBriefing, onInquiry, onError } = {}) {
   let eventSource = null
   let reconnectTimer = null
   let isClosed = false
@@ -37,6 +37,17 @@ export function createSseConnection({ onInquiry, onError } = {}) {
       }
 
       onInquiry?.(data)
+    })
+
+    eventSource.addEventListener('daily_briefing', (event) => {
+      const data = parseEventData(event)
+
+      if (!data) {
+        onError?.(new Error('브리핑 데이터 형식이 올바르지 않습니다.'))
+        return
+      }
+
+      onDailyBriefing?.(data)
     })
 
     eventSource.onerror = (error) => {
