@@ -612,6 +612,45 @@ tr.is-selected td {
   }
 }
 
+.daily-briefing-modal {
+  width: min(100%, 640px);
+}
+
+.daily-briefing-list {
+  display: grid;
+  gap: 10px;
+  max-height: 46vh;
+  margin-top: 18px;
+  overflow-y: auto;
+}
+
+.daily-briefing-list__item {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 14px 16px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+
+  strong {
+    color: var(--color-primary);
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  span {
+    color: #111827;
+    font-weight: 800;
+  }
+
+  p {
+    margin-top: 2px;
+    font-size: 15px;
+  }
+}
+
 .confirm-modal__warning {
   color: var(--color-primary) !important;
   font-weight: 800;

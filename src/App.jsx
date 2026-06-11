@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { createSseConnection } from '@/apis/sse'
+import DailyBriefingModal from '@/components/DailyBriefingModal'
 import Icon from '@/components/Icon'
 import InquiryNotificationModal from '@/components/InquiryNotificationModal'
 import { navItems } from '@/data/dashboardData'
@@ -11,9 +12,19 @@ import ShopInfoPage from '@/pages/ShopInfoPage'
 function App() {
   const [activeTab, setActiveTab] = useState('shop')
   const [notifications, setNotifications] = useState([])
+  const [dailyBriefings, setDailyBriefings] = useState([])
 
   useEffect(() => {
     const sseConnection = createSseConnection({
+      onDailyBriefing(data) {
+        const briefing = {
+          id: crypto.randomUUID(),
+          total: data.total ?? 0,
+          reservations: data.reservations ?? [],
+        }
+
+        setDailyBriefings((currentBriefings) => [...currentBriefings, briefing])
+      },
       onInquiry(data) {
         if (!data.waiting) {
           return
@@ -37,9 +48,14 @@ function App() {
   }, [])
 
   const currentNotification = notifications[0] ?? null
+  const currentDailyBriefing = dailyBriefings[0] ?? null
 
   const handleNotificationConfirm = () => {
     setNotifications((currentNotifications) => currentNotifications.slice(1))
+  }
+
+  const handleDailyBriefingConfirm = () => {
+    setDailyBriefings((currentBriefings) => currentBriefings.slice(1))
   }
 
   const panel = {
@@ -78,6 +94,7 @@ function App() {
         notification={currentNotification}
         onConfirm={handleNotificationConfirm}
       />
+      <DailyBriefingModal briefing={currentDailyBriefing} onConfirm={handleDailyBriefingConfirm} />
     </div>
   )
 }
