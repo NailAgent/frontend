@@ -3,6 +3,7 @@ const VISIT_STATUS_LABELS = {
   confirmed: '예약 확정',
   visited: '이용 완료',
   no_show: '노쇼',
+  cancelled: '취소됨',
 }
 
 export function mapBookingToReservation(booking) {
